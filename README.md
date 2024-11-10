@@ -14,6 +14,8 @@ https://develop.openfoam.com/Development/openfoam
 
 ### 1. Setup OpenFOAM-v2312 Environment
 
+Do not use latest.
+
 #### 1.1 Download OpenFOAM
 
 If you are using Ubuntu, follow these steps:
