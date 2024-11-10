@@ -52,12 +52,13 @@ foamInstallationTest -full incompressible/simpleFoam/pitzDaily
 
 ### 1.3 Compile Additional Library
 ``` bash
-cd $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/
-sudo bash -c "source $WM_PROJECT_DIR/etc/bashrc && ./Allwmake"
+sudo bash -c "source $WM_PROJECT_DIR/etc/bashrc && $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/Allwmake -j"
 ```
 
 ### 1.4 Copy the Library Files to Project
 ``` bash
+cd /path/to/your/project
+mkdir lib
 cp $WM_PROJECT_DIR/platforms/linux64GccDPInt32Opt/lib/* -r ./lib/
 cp $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/DPMTurbulenceModels -r ./lib/
 ```
