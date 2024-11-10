@@ -24,16 +24,45 @@ sudo apt install openfoam-selector
 ```
 
 ### 1.2 Setup Environmental Variables
-
-#### 1. Open the .bashrc file in a text editor:
+Open the .bashrc file in a text editor:
+``` bash
 nano ~/.bashrc
-
-#### Add the following lines to the end of the file:
+```
+Add the following lines to the end of the file:
 ```bash
 export WM_PROJECT_DIR="/usr/lib/openfoam/openfoam2312"
 export FOAM_APPBIN="$WM_PROJECT_DIR/platforms/linux64GccDPInt32Opt/bin"
 export FOAM_LIBBIN="$WM_PROJECT_DIR/platforms/linux64GccDPInt32Opt/lib"
 source $WM_PROJECT_DIR/etc/bashrc
 ```
+Save and close the file, then source the updated .bashrc:
+``` bash
+source ~/.bashrc
+```
+Verify the installation by running a test case:
+```bash
+foamInstallationTest -full incompressible/simpleFoam/pitzDaily
+```
 
+### 1.3 Compile Additional Library
+``` bash
+cd $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/
+sudo bash -c "source $WM_PROJECT_DIR/etc/bashrc && ./Allwmake"
+```
 
+### 1.4 Copy the Library Files to Project
+``` bash
+cp $WM_PROJECT_DIR/platforms/linux64GccDPInt32Opt/lib/* -r ./lib/
+cp $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/DPMTurbulenceModels -r ./lib/
+```
+
+### 1.5 Build Project
+``` bash
+cd /path/to/your/project
+mkdir build && cd build
+cmake ..
+make
+```
+
+## 2. Run Simulation Using Compiled DMPPICFoam Solver
+After successfully building the project, you can run simulations using the compiled DMPPICFoam solver. Refer to the Usage Guide for detailed instructions on setting up and executing simulations.
