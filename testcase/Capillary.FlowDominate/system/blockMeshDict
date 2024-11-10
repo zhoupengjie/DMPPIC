@@ -1,0 +1,122 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //convertToMeters 1;
+scale 1;
+
+radius      6.5e-6;//圆柱半径
+radiusNeg  -6.5e-6;
+box         2.5e-6;//box和boxNeg定义中间长方体block的范围
+boxNeg     -2.5e-6;
+zMax        340e-6;//zMax和zMin定义圆柱体的长度
+zMin        0.0;
+
+nR          12;//扇形block半径上的节点数
+nBox        16;//矩形block正方形边上的节点数
+nZ          40;//轴向方向上的节点数
+
+verbose no;
+
+geometry
+{
+    cylinder
+    {
+        type      searchableCylinder;
+        point1    (0 0 -10e-6);//由point1和point2构成的区域要大于zMax和zMin构成的区域
+        point2    (0 0  350e-6);
+        radius    $radius;
+    }
+}
+
+
+
+vertices
+(
+    // Inner
+    ($boxNeg $boxNeg $zMin)//0
+    ($box    $boxNeg $zMin)//1
+    ($boxNeg $box    $zMin)//2
+    ($box    $box    $zMin)//3
+
+    // Outer block points
+    project ($radiusNeg $radiusNeg $zMin) (cylinder)//4
+    project ($radius    $radiusNeg $zMin) (cylinder)//5
+    project ($radiusNeg $radius    $zMin) (cylinder)//6
+    project ($radius    $radius    $zMin) (cylinder)//7
+
+    // Inner
+    ($boxNeg $boxNeg $zMax)//8
+    ($box    $boxNeg $zMax)//9
+    ($boxNeg $box    $zMax)//10
+    ($box    $box    $zMax)//11
+
+    // Outer block points
+    project ($radiusNeg $radiusNeg $zMax) (cylinder)//12
+    project ($radius    $radiusNeg $zMax) (cylinder)//13
+    project ($radiusNeg $radius    $zMax) (cylinder)//14
+    project ($radius    $radius    $zMax) (cylinder)//15
+);
+
+blocks
+(
+    hex ( 4  5  1  0 12 13  9  8) ($nBox $nR   $nZ) simpleGrading (1 1 1)
+    hex ( 4  0  2  6 12  8 10 14) ($nR   $nBox $nZ) simpleGrading (1 1 1)
+    hex ( 1  5  7  3  9 13 15 11) ($nR   $nBox $nZ) simpleGrading (1 1 1)
+    hex ( 2  3  7  6 10 11 15 14) ($nBox $nR   $nZ) simpleGrading (1 1 1)
+    hex ( 0  1  3  2  8  9 11 10) ($nBox $nBox $nZ) simpleGrading (1 1 1)
+);
+
+edges
+(
+    project  4  5 (cylinder)
+    project  7  5 (cylinder)
+    project  6  7 (cylinder)
+    project  4  6 (cylinder)
+    project 12 13 (cylinder)
+    project 13 15 (cylinder)
+    project 12 14 (cylinder)
+    project 14 15 (cylinder)
+);
+
+//boundary
+patches
+(
+    patch inlet1
+    (
+     (0 1 3 2)
+     (0 2 6 4)
+     (0 1 5 4)
+     (1 5 7 3)
+     (2 3 7 6)
+    )
+
+    patch outlet1
+    (
+     (8   9  11  10)
+     (8  10  14  12)
+     (8   9  13  12)
+     (9  13  15  11)
+     (10 11  15  14)
+    )
+
+    wall wall1
+    (
+     (4  12  14  6)
+     (4   5  13 12)
+     (5  13  15  7)
+     (6   7  15 14)
+    )
+);
+
+// ************************************************************************* //

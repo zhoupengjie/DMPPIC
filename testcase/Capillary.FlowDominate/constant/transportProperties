@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+continuousPhase medium;
+
+rho.medium         1050;
+
+transportModel  Newtonian;
+nu              1e-06;
+
+// transportModel		BirdCarreau;
+// BirdCarreauCoeffs
+// {
+// 	nu0	[0 2 -1 0 0 0 0] 3.3e-06;
+// 	nuInf	[0 2 -1 0 0 0 0] 1.32e-05;
+// 	k	[0 0  1 0 0 0 0] 0.6046;
+// 	n	[0 0  0 0 0 0 0] 0.3742;
+// }
+
+//Blood aeverage density in capillaries
+// rho.medium         1060;
+
+//The Casson model is a basic model used in blood rheology
+// transportModel Casson;
+// CassonCoeffs
+// {
+//     m        [ 0 2 -1 0 0 0 0 ] 3.934986e-6;
+//     tau0     [ 0 2 -2 0 0 0 0 ] 2.9032e-6;
+//     nuMax    [ 0 2 -1 0 0 0 0 ] 13.3333e-6;
+//     nuMin    [ 0 2 -1 0 0 0 0 ] 3.9047e-6;
+// }
+
+
+// ************************************************************************* //
