@@ -6,6 +6,9 @@ MC is a new communication paradigm that uses molecules/particles as the informat
 
 This project enhances the MPPICFoam solver in OpenFOAM by introducing diffusion effects. The improved version is called **Diffusive MPPIC (DMPPIC)**. In DMPPIC, we implement the diffusion effect of particles by adding random walk calculations into the source code.
 
+**Most of the code used in this project is derived from ESI-OpenFOAM**
+https://develop.openfoam.com/Development/openfoam
+
 ## How Users Can Get Started with the Project
 
 ### 1. Setup OpenFOAM-v2312 Environment
