@@ -55,7 +55,7 @@ foamInstallationTest -full incompressible/simpleFoam/pitzDaily
 sudo bash -c "source $WM_PROJECT_DIR/etc/bashrc && $WM_PROJECT_DIR/applications/solvers/lagrangian/DPMFoam/Allwmake -j"
 ```
 
-### 1.4 Copy the Library Files to Project
+<!-- ### 1.4 Copy the Library Files to Project
 ``` bash
 cd /path/to/your/project
 mkdir lib
@@ -69,7 +69,11 @@ cd /path/to/your/project
 mkdir build && cd build
 cmake ..
 make
-```
+``` -->
+
+### 1.4 Build Project
+cd /path/to/your/project
+./Allwclean && ./Allwmake -j -s -q -l
 
 ## 2. Run Simulation Using Compiled DMPPICFoam Solver
-After successfully building the project, you can run simulations using the compiled DMPPICFoam solver. Refer to the Usage Guide for detailed instructions on setting up and executing simulations.
+After successfully building the project, you can run simulations using the compiled MPPICFoam solver by ./Bin/MPPICFoam. Refer to the Usage Guide for detailed instructions on setting up and executing simulations.
