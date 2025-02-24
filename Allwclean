@@ -9,4 +9,6 @@ wclean MPPICFoam
 wclean DPMDyMFoam
 wclean DPMDyMFoam/MPPICDyMFoam
 
+rm ./Bin/* -rf
+
 #------------------------------------------------------------------------------
