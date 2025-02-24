@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/DPMTurbulenceModels",
+                "${env:FOAM_SRC}/**",
+                "${env:FOAM_SRC}/finiteVolume/lnInclude",
+                "${env:FOAM_SRC}/finiteArea/lnInclude",
+                "${env:FOAM_SRC}/meshTools/lnInclude",
+                "${env:FOAM_SRC}/lagrangian/basic/lnInclude",
+                "./Include/intermediate/lnInclude/**",
+                // "${env:FOAM_SRC}/lagrangian/intermediate/lnInclude",
+                "${env:FOAM_SRC}/thermophysicalModels/specie/lnInclude",
+                "${env:FOAM_SRC}/transportModels/compressible/lnInclude",
+                "${env:FOAM_SRC}/thermophysicalModels/basic/lnInclude",
+                "${env:FOAM_SRC}/thermophysicalModels/reactionThermo/lnInclude",
+                "${env:FOAM_SRC}/thermophysicalModels/radiation/lnInclude",
+                "${env:FOAM_SRC}/transportModels",
+                "${env:FOAM_SRC}/transportModels/incompressible/singlePhaseTransportModel",
+                "${env:FOAM_SRC}/TurbulenceModels/turbulenceModels/lnInclude",
+                "${env:FOAM_SRC}/TurbulenceModels/incompressible/lnInclude",
+                "${env:FOAM_SRC}/regionModels/regionModel/lnInclude",
+                "${env:FOAM_SRC}/regionModels/surfaceFilmModels/lnInclude",
+                "${env:FOAM_SRC}/regionFaModels/lnInclude",
+                "${env:FOAM_SRC}/faOptions/lnInclude"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

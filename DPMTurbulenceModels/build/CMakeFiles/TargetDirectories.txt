@@ -1,0 +1,3 @@
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/DPMTurbulenceModels/build/CMakeFiles/DPMTurbulenceModels.dir
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/DPMTurbulenceModels/build/CMakeFiles/edit_cache.dir
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/DPMTurbulenceModels/build/CMakeFiles/rebuild_cache.dir

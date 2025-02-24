@@ -1,0 +1,3 @@
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/build/CMakeFiles/MPPICFoam.dir
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/build/CMakeFiles/edit_cache.dir
+/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,34 @@
+Compiling enabled on 32 cores
+wmakeLnIncludeAll: starting wmakeLnInclude processes on 32 cores
+    searching . for 'Make' directories
+    ln: ./DPMTurbulenceModels/lnInclude
+wmake objects (DPMFoam)
+wmake objects DPMTurbulenceModels
+    dep: DPMTurbulenceModels.C
+    Ctoo: DPMTurbulenceModels.C
+wmake objects (DPMFoam)
+    dep: DPMFoam.C
+    Ctoo: DPMFoam.C
+wmake objects MPPICFoam
+    dep: MPPICFoam.C
+    Ctoo: MPPICFoam.C
+wmake objects DPMDyMFoam
+    dep: DPMDyMFoam.C
+    Ctoo: DPMDyMFoam.C
+wmake objects DPMDyMFoam/MPPICDyMFoam
+    dep: MPPICDyMFoam.C
+    Ctoo: MPPICDyMFoam.C
+    compiling: DPMTurbulenceModels.C
+    compiling: DPMFoam.C
+    compiling: MPPICFoam.C
+    compiling: DPMDyMFoam.C
+    compiling: MPPICDyMFoam.C
+wmake DPMTurbulenceModels
+    link: ../Bin/libDPMTurbulenceModels.so
+    link: ./Bin/DPMFoam
+wmake MPPICFoam
+    link: ../Bin/MPPICFoam
+wmake DPMDyMFoam
+    link: ../Bin/DPMDyMFoam
+wmake DPMDyMFoam/MPPICDyMFoam
+    link: ../../Bin/MPPICDyMFoam

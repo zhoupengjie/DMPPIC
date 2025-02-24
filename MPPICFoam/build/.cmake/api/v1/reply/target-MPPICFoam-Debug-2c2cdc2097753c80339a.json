@@ -1,0 +1,543 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "/home/zpj/ProjectLocal/DMPPIC/DPMFoam/Bin/MPPICFoam"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"add_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 58,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 49,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++14   -fpermissive"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "NoRepository"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "WM_DP"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "WM_LABEL_SIZE=32"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "linux64"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/../DPMTurbulenceModels"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/finiteVolume/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/finiteArea/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/meshTools/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/lagrangian/basic/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/ProjectLocal/DMPPIC/DPMFoam/MPPICFoam/../Include/intermediate/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/thermophysicalModels/specie/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/transportModels/compressible/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/thermophysicalModels/basic/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/thermophysicalModels/reactionThermo/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/thermophysicalModels/radiation/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/transportModels"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/transportModels/incompressible/singlePhaseTransportModel"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/TurbulenceModels/turbulenceModels/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/TurbulenceModels/incompressible/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/TurbulenceModels/phaseIncompressible/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/regionModels/regionModel/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/regionModels/surfaceFilmModels/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/regionFaModels/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/faOptions/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/OpenFOAM/lnInclude"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/zpj/OpenFOAM/OpenFOAM-v2412/src/OSspecific/POSIX/lnInclude"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "14"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"id" : "MPPICFoam::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-L/home/zpj/OpenFOAM/OpenFOAM-v2412/platforms/linux64GccDPInt32Opt/lib",
+				"role" : "libraryPath"
+			},
+			{
+				"fragment" : "-L/home/zpj/OpenFOAM/OpenFOAM-v2412/platforms/linux64GccDPInt32Opt/lib/sys-openmpi",
+				"role" : "libraryPath"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/zpj/OpenFOAM/OpenFOAM-v2412/platforms/linux64GccDPInt32Opt/lib:/home/zpj/OpenFOAM/OpenFOAM-v2412/platforms/linux64GccDPInt32Opt/lib/sys-openmpi",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfiniteVolume",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfvOptions",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmeshTools",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-llagrangian",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-llagrangianIntermediate",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-llagrangianTurbulence",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lspecie",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lradiationModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lincompressibleTransportModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lturbulenceModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lincompressibleTurbulenceModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lDPMTurbulenceModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lregionModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsurfaceFilmModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsampling",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lregionFaModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfiniteArea",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfaOptions",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lOpenFOAM",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lPstream",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfileFormats",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsurfMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfluidThermophysicalModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsolidThermo",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcompressibleTurbulenceModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lreactionThermophysicalModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-loverset",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldistributionModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcompressibleTransportModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lthermophysicalProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lSLGThermo",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldynamicMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldynamicFvMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldistributed",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ltwoPhaseMixture",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lthermoTools",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsolidSpecie",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lblockMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldecompositionMethods",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lextrudeModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lincompressibleMultiphaseSystems",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lgeometricVoF",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ltwoPhaseProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcombustionModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsaturationModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-linterfaceProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lchemistryModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lODE",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfileFormats",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsurfMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lfluidThermophysicalModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsolidThermo",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcompressibleTurbulenceModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lreactionThermophysicalModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-loverset",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldistributionModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcompressibleTransportModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lthermophysicalProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lSLGThermo",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldynamicMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldynamicFvMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldistributed",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ltwoPhaseMixture",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lthermoTools",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsolidSpecie",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lblockMesh",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldecompositionMethods",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lextrudeModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lincompressibleMultiphaseSystems",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lgeometricVoF",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ltwoPhaseProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcombustionModels",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsaturationModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-linterfaceProperties",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lchemistryModel",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lODE",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "MPPICFoam",
+	"nameOnDisk" : "MPPICFoam",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "MPPICFoam.C",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

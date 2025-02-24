@@ -1,0 +1,346 @@
+Can you help me to convert wmake project to cmake project?
+
+tree:
+.
+├── Allwclean
+├── Allwmake
+├── Bin
+│   ├── DPMFoam
+│   ├── MPPICFoam
+│   └── libDPMTurbulenceModels.so
+├── CourantNo.H
+├── DPMDyMFoam
+│   ├── DPMDyMFoam.C
+│   ├── MPPICDyMFoam
+│   │   ├── MPPICDyMFoam.C
+│   │   └── Make
+│   │       ├── files
+│   │       └── options
+│   ├── Make
+│   │   ├── files
+│   │   └── options
+│   ├── correctPhic.H
+│   ├── createUcf.H
+│   └── pEqn.H
+├── DPMFoam.C
+├── DPMTurbulenceModels
+│   ├── DPMIncompressibleTurbulenceModel.C
+│   ├── DPMIncompressibleTurbulenceModel.H
+│   ├── DPMTurbulenceModels.C
+│   ├── Make
+│   │   ├── files
+│   │   ├── linux64GccDPInt32Opt
+│   │   │   ├── DPMTurbulenceModels.C.dep
+│   │   │   ├── DPMTurbulenceModels.o
+│   │   │   ├── options
+│   │   │   ├── sourceFiles
+│   │   │   └── variables
+│   │   └── options
+│   └── lnInclude
+│       ├── DPMIncompressibleTurbulenceModel.C -> ../DPMIncompressibleTurbulenceModel.C
+│       ├── DPMIncompressibleTurbulenceModel.H -> ../DPMIncompressibleTurbulenceModel.H
+│       └── DPMTurbulenceModels.C -> ../DPMTurbulenceModels.C
+├── Include
+│   └── intermediate
+│       ├── Make
+│       │   ├── files
+│       │   └── options
+│       ├── ...
+├── MPPICFoam
+│   ├── MPPICFoam.C
+│   └── Make
+│       ├── files
+│       ├── linux64GccDPInt32Opt
+│       │   ├── MPPICFoam.C.dep
+│       │   ├── MPPICFoam.o
+│       │   ├── options
+│       │   ├── sourceFiles
+│       │   └── variables
+│       └── options
+├── Make
+│   ├── files
+│   ├── linux64GccDPInt32Opt
+│   │   ├── DPMFoam.C.dep
+│   │   ├── DPMFoam.o
+│   │   ├── options
+│   │   ├── sourceFiles
+│   │   └── variables
+│   └── options
+├── Test
+│   ├── 0
+│   │   ├── U.air
+│   │   └── p
+│   ├── constant
+│   │   ├── g
+│   │   ├── kinematicCloudPositions
+│   │   ├── kinematicCloudProperties
+│   │   ├── polyMesh
+│   │   │   ├── boundary
+│   │   │   ├── faces
+│   │   │   ├── neighbour
+│   │   │   ├── owner
+│   │   │   └── points
+│   │   ├── transportProperties
+│   │   └── turbulenceProperties.air
+│   └── system
+│       ├── blockMeshDict
+│       ├── controlDict
+│       ├── decomposeParDict
+│       ├── fvSchemes
+│       └── fvSolution
+├── UcEqn.H
+├── continuityErrs.H
+├── createFields.H
+├── log.linux64GccDPInt32Opt
+├── pEqn.H
+└── tree.txt
+
+257 directories, 1050 files
+
+DPMDyMFoam/Make/files:
+
+DPMDyMFoam.C
+
+EXE = ../Bin/DPMDyMFoam
+
+DPMDyMFoam/Make/options:
+EXE_INC = \
+    -I.. \
+    -I../DPMTurbulenceModels \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/finiteArea/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/lagrangian/basic/lnInclude \
+    -I../Include/intermediate/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/phaseIncompressible/lnInclude \
+    -I$(LIB_SRC)/regionModels/regionModel/lnInclude \
+    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
+    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
+    -I$(LIB_SRC)/regionFaModels/lnInclude \
+    -I$(LIB_SRC)/faOptions/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lmeshTools \
+    -llagrangian \
+    -llagrangianIntermediate \
+    -llagrangianTurbulence \
+    -lspecie \
+    -lradiationModels \
+    -lincompressibleTransportModels \
+    -lturbulenceModels \
+    -lincompressibleTurbulenceModels \
+    -lDPMTurbulenceModels \
+    -lregionModels \
+    -lsurfaceFilmModels \
+    -ldynamicMesh \
+    -ldynamicFvMesh \
+    -ltopoChangerFvMesh \
+    -lsampling \
+    -lregionFaModels \
+    -lfiniteArea \
+    -lfaOptions
+
+DPMDyMFoam/MPPICDyMFoam/Make/files:
+MPPICDyMFoam.C
+
+EXE = ../../Bin/MPPICDyMFoam
+
+DPMDyMFoam/MPPICDyMFoam/Make/options:
+EXE_INC = \
+    -I.. \
+    -I../.. \
+    -I../../DPMTurbulenceModels \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/finiteArea/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/lagrangian/basic/lnInclude \
+    -I../../Include/intermediate/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/phaseIncompressible/lnInclude \
+    -I$(LIB_SRC)/regionModels/regionModel/lnInclude \
+    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
+    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/regionFaModels/lnInclude \
+    -I$(LIB_SRC)/faOptions/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lmeshTools \
+    -llagrangian \
+    -llagrangianIntermediate \
+    -llagrangianTurbulence \
+    -lspecie \
+    -lradiationModels \
+    -lincompressibleTransportModels \
+    -lturbulenceModels \
+    -lincompressibleTurbulenceModels \
+    -lDPMTurbulenceModels \
+    -lregionModels \
+    -lsurfaceFilmModels \
+    -ldynamicMesh \
+    -ldynamicFvMesh \
+    -ltopoChangerFvMesh \
+    -lsampling \
+    -lregionFaModels \
+    -lfiniteArea \
+    -lfaOptions
+
+
+DPMTurbulenceModels/Make/files:
+DPMTurbulenceModels.C
+
+LIB = ../Bin/libDPMTurbulenceModels
+
+DPMTurbulenceModels/Make/options:
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/phaseIncompressible/lnInclude \
+
+LIB_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools \
+    -lcompressibleTransportModels \
+    -lincompressibleTransportModels \
+    -lturbulenceModels \
+    -lincompressibleTurbulenceModels
+
+Make/files:
+DPMFoam.C
+
+EXE = ./Bin/DPMFoam
+
+Make/options:
+EXE_INC = \
+    -I./DPMTurbulenceModels \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/finiteArea/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/lagrangian/basic/lnInclude \
+    -I./Include/intermediate/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/regionModels/regionModel/lnInclude \
+    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
+    -I$(LIB_SRC)/regionFaModels/lnInclude \
+    -I$(LIB_SRC)/faOptions/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lmeshTools \
+    -llagrangian \
+    -llagrangianIntermediate \
+    -llagrangianTurbulence \
+    -lspecie \
+    -lradiationModels \
+    -lincompressibleTransportModels \
+    -lturbulenceModels \
+    -lincompressibleTurbulenceModels \
+    -lDPMTurbulenceModels \
+    -lregionModels \
+    -lsurfaceFilmModels \
+    -lsampling \
+    -lregionFaModels \
+    -lfiniteArea \
+    -lfaOptions
+
+MPPICFoam/Make/files:
+MPPICFoam.C
+
+EXE = ../Bin/MPPICFoam
+
+MPPICFoam/Make/options:
+EXE_INC = \
+    -I.. \
+    -I../DPMTurbulenceModels \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/finiteArea/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/lagrangian/basic/lnInclude \
+    -I../Include/intermediate/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/phaseIncompressible/lnInclude \
+    -I$(LIB_SRC)/regionModels/regionModel/lnInclude \
+    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
+    -I$(LIB_SRC)/regionFaModels/lnInclude \
+    -I$(LIB_SRC)/faOptions/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lmeshTools \
+    -llagrangian \
+    -llagrangianIntermediate \
+    -llagrangianTurbulence \
+    -lspecie \
+    -lradiationModels \
+    -lincompressibleTransportModels \
+    -lturbulenceModels \
+    -lincompressibleTurbulenceModels \
+    -lDPMTurbulenceModels \
+    -lregionModels \
+    -lsurfaceFilmModels \
+    -lsampling \
+    -lregionFaModels \
+    -lfiniteArea \
+    -lfaOptions
+
+
+Allwmake:
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/wmake/scripts/AllwmakeParseArguments
+#------------------------------------------------------------------------------
+
+wmake $targetType DPMTurbulenceModels
+
+wmake $targetType
+wmake $targetType MPPICFoam
+# wmake $targetType DPMDyMFoam
+# wmake $targetType DPMDyMFoam/MPPICDyMFoam
+
+#------------------------------------------------------------------------------
