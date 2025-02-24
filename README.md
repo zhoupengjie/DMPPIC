@@ -72,8 +72,10 @@ make
 ``` -->
 
 ### 1.4 Build Project
+``` bash
 cd /path/to/your/project
 ./Allwclean && ./Allwmake -j -s -q -l
+```
 
 ## 2. Run Simulation Using Compiled DMPPICFoam Solver
 After successfully building the project, you can run simulations using the compiled MPPICFoam solver by ./Bin/MPPICFoam. Refer to the Usage Guide for detailed instructions on setting up and executing simulations.
