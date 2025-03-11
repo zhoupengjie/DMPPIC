@@ -1,0 +1,163 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      kinematicCloudProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution{
+    active          true;
+    coupled         true;
+    transient       yes;
+    cellValueSourceCorrection on;
+
+    interpolationSchemes{
+        rho.medium         cell;
+        U.medium           cellPoint;
+        mu.medium          cell;
+    }
+
+    averagingMethod basic;
+
+    integrationSchemes{
+        U Euler;
+    }
+
+    sourceTerms{
+        schemes{
+            U semiImplicit 1;
+        }
+    }
+}
+
+constantProperties{
+    rho0                    998;   // particle density (kg/m3)
+    alphaMax                1;
+    diffusionCoefficient    1e-9; // 1.87*3.5 m2/s
+}
+
+subModels{
+    particleForces{
+        sphereDrag;
+        ErgunWenYuDrag{
+            alphac
+            alpha.medium;
+        }
+
+		/*
+        gravity;
+		pressureGradient {
+            U U;
+        }
+        */
+		
+		/*
+		paramagnetic {
+            magneticSusceptibility -6.3e-9; //m^3/kg for graphite
+            HdotGradH U;
+		}
+        */
+
+        /*
+		virtualMass  {
+            Cvm 0.5;
+        }
+        */
+        
+        /*
+		nonInertialFrame  {
+            linearAccelerationName  linearAc;
+            linearAcceleration      10;
+            angularVelocityName     angVelo;
+            angularVelocity         5;
+            angularAccelerationName angAcc;
+            angularAcceleration     5;
+        }
+        */
+    }
+
+    injectionModels{
+
+        model1{
+            type            patchInjection;
+            parcelBasisType fixed;
+            patch           inlet1;
+            U0              (0 0 0);
+            nParticle         1;
+            parcelsPerSecond  1e8;
+            sizeDistribution
+            {
+                // type normal;
+                // normalDistribution
+                // {
+                //     mu              650e-10;
+                //     sigma           25e-10;
+                //     minValue        500e-10;
+                //     maxValue        800e-10;
+                // }
+                type fixedValue;
+                fixedValueDistribution
+                {
+                    value       650e-10;
+                }
+            }
+            flowRateProfile constant 1;
+            massTotal       0;
+            SOI             0;
+            duration        1e5;
+        }
+    }
+
+    dispersionModel none;
+    patchInteractionModel localInteraction;
+
+    localInteractionCoeffs{
+        patches
+        (
+            "(wall1|defaultBoundary)"
+            {
+                type rebound; // Particles bounce off the wall.
+                e    1.0;  // Adjusted restitution coefficient (elasticity of bounce, 1 = perfect bounce, 0 = no bounce).
+                mu   0.0;  // Added friction coefficient, higher mu means more energy loss
+            }
+            "(wall2)"
+            {
+                type stick; // or absorb.
+                e    0;
+                mu   1;
+            }
+            "(inlet1)"
+            {
+                type rebound;
+                e    1;
+                mu   0;
+            }
+            "(outlet1)"
+            {
+                type escape;
+            }
+        );
+    }
+
+    surfaceFilmModel none;
+    packingModel none;
+    dampingModel none;
+    isotropyModel none;
+    stochasticCollisionModel none;
+    collisionModel none;
+}
+
+cloudFunctions
+{}
+
+
+// ************************************************************************* //

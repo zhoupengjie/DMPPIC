@@ -1,0 +1,216 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      kinematicCloudProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution{
+    active          true;
+    coupled         false;
+    transient       yes;
+    cellValueSourceCorrection on;
+
+    interpolationSchemes{
+        rho.medium         cell;
+        U.medium           cellPoint;
+        mu.medium          cell;
+    }
+
+    averagingMethod basic;
+
+    integrationSchemes{
+        U Euler;
+    }
+
+    sourceTerms{
+        schemes{
+            U semiImplicit 1;
+        }
+    }
+}
+
+constantProperties{
+    rho0                    998;   // particle density (kg/m3)
+    alphaMax                1;
+    diffusion_coeff         1e-9; // m2/s
+}
+
+subModels{
+    particleForces{
+        // sphereDrag;
+        // ErgunWenYuDrag{
+        //     alphac
+        //     alpha.medium;
+        // }
+
+		/*
+        gravity;
+		pressureGradient {
+            U U;
+        }
+        */
+		
+		/*
+		paramagnetic {
+            magneticSusceptibility -6.3e-9; //m^3/kg for graphite
+            HdotGradH U;
+		}
+        */
+
+        /*
+		virtualMass  {
+            Cvm 0.5;
+        }
+        */
+        
+        /*
+		nonInertialFrame  {
+            linearAccelerationName  linearAc;
+            linearAcceleration      10;
+            angularVelocityName     angVelo;
+            angularVelocity         5;
+            angularAccelerationName angAcc;
+            angularAcceleration     5;
+        }
+        */
+    }
+
+    injectionModels{
+        model1{
+            type            manualInjection;
+            massTotal       0;
+            parcelBasisType fixed;
+            nParticle       1;
+            SOI             0;
+            positionsFile   "kinematicCloudPositions_n1e5";
+            U0              (0 0 0);
+            sizeDistribution{
+                type        fixedValue;
+                fixedValueDistribution{
+                    value   1e-9;
+                }
+            }
+        }
+        /*
+            % matlab/octave calculation of flow rate
+            alpha=0.1
+            U=20
+            A=0.01^2
+            Q=U*A
+            d=650e-6
+            v=(4/3)*pi*(d/2)^3
+            n=1
+            rate=alpha*Q/(v*n)
+        */
+
+        /*
+        model1
+        {
+            type            patchInjection;
+            parcelBasisType fixed;
+            patch           inlet1;
+            U0              (0 0 0);
+            nParticle       1;
+            parcelsPerSecond  ;
+            sizeDistribution
+            {
+                type            normal;                
+                normalDistribution              
+                {
+                    mu              650e-10;
+                    sigma           25e-10;
+                    minValue        500e-10;
+                    maxValue        800e-10;
+                }
+                // type 		fixedValue;
+                // fixedValueDistribution
+                // {
+                // value		5e-8;
+                // }
+            }
+            flowRateProfile constant 1;
+            massTotal       0;
+            SOI            c 0.4;
+            duration        0.01;
+        }
+        */
+    }
+
+    dispersionModel none;
+
+    patchInteractionModel localInteraction;
+
+    localInteractionCoeffs{
+        patches
+        (
+            "(wall1|defaultBoundary)"
+            {
+                type rebound;
+                e    1;
+                mu   0;
+            }
+            "(inlet1)"
+            {
+                type rebound;
+                e    1;
+                mu   0;
+            }
+            "(outlet1)"
+            {
+                type escape;
+            }
+        );
+    }
+
+    surfaceFilmModel none;
+
+    packingModel none;
+
+    dampingModel none;
+
+    isotropyModel none;
+
+    /*
+    dampingModel relaxation;
+
+    relaxationCoeffs{
+        timeScaleModel{
+            type nonEquilibrium;
+            alphaPacked 0.58;
+            e 0.9;
+        }
+    }
+
+    isotropyModel stochastic;
+
+    stochasticCoeffs{
+        timeScaleModel{
+            type isotropic;
+            alphaPacked 0.58;
+            e 0.9;
+        }
+    }
+    */
+
+    stochasticCollisionModel none;
+
+    surfaceFilmModel none;
+
+    collisionModel none;
+}
+
+cloudFunctions
+{}
+
+
+// ************************************************************************* //

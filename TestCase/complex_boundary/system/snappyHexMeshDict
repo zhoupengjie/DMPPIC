@@ -1,0 +1,182 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:                                        |
+|   \\  /    A nd           | Web:      www.openfoam.com; www.openfoam.org    |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+    castellatedMesh true;
+    snap            true;
+    addLayers       false;
+    // addLayers       true;
+
+    geometry
+    {
+        inlet1.stl{ type triSurfaceMesh; name inlet1; scale 0.001;}
+    //   inlet2.stl{ type triSurfaceMesh; name inlet2; scale 0.001;}
+    //   inlet3.stl{ type triSurfaceMesh; name inlet3; scale 0.001;}
+    //   inlet4.stl{ type triSurfaceMesh; name inlet4; scale 0.001;}
+//       inlet5.stl{ type triSurfaceMesh; name inlet5;}
+        outlet1.stl{ type triSurfaceMesh; name outlet1; scale 0.001;}
+    //   outlet2.stl{ type triSurfaceMesh; name outlet2; scale 0.001;}
+    //   outlet3.stl{ type triSurfaceMesh; name outlet3;}
+    //   outlet4.stl{ type triSurfaceMesh; name outlet4;}
+//       outlet5.stl{ type triSurfaceMesh; name outlet5;}
+        wall1.stl{ type triSurfaceMesh; name wall1; scale 0.001;}
+        wall2.stl{ type triSurfaceMesh; name wall2; scale 0.001;}
+//       wall3.stl{ type triSurfaceMesh; name wall3;}
+//       wall4.stl{ type triSurfaceMesh; name wall4;}
+//       wall5.stl{ type triSurfaceMesh; name wall5;}
+    }
+
+    castellatedMeshControls
+    {
+        maxLocalCells 1000000;
+        maxGlobalCells 80000000;
+        // maxLocalCells 1000000;
+        // maxGlobalCells 80000000;
+        minRefinementCells 0;
+        maxLoadUnbalance 0.10;
+        nCellsBetweenLevels 3;
+        features
+        (
+            { file inlet1.eMesh; level 2;}
+        //  { file inlet2.eMesh; level 2;}
+        //  { file inlet3.eMesh; level 2;}
+        //  { file inlet4.eMesh; level 2;}
+//          { file inlet5.eMesh; level 2;}
+            { file outlet1.eMesh; level 2;}
+        //  { file outlet2.eMesh; level 2;}
+//          { file outlet3.eMesh; level 2;}
+//          { file outlet4.eMesh; level 2;}
+//          { file outlet5.eMesh; level 2;}
+            { file wall1.eMesh; level 2;}
+            { file wall2.eMesh; level 2;}
+//          { file wall3.eMesh; level 2;}
+//          { file wall4.eMesh; level 2;}
+//          { file wall5.eMesh; level 2;}
+        );
+        refinementSurfaces
+        {
+            inlet1{ level (2 2); patchInfo{type patch;}}
+        //  inlet2{ level (2 2); patchInfo{type patch;}}
+        //  inlet3{ level (2 2); patchInfo{type patch;}}
+        //  inlet4{ level (2 2); patchInfo{type patch;}}
+//          inlet5{ level (2 2); patchInfo{type patch;}}
+            outlet1{ level (2 2); patchInfo{type patch;}}
+            // outlet2{ level (2 2); patchInfo{type patch;}}
+//          outlet3{ level (2 2); patchInfo{type patch;}}
+//          outlet4{ level (2 2); patchInfo{type patch;}}
+//          outlet5{ level (2 2); patchInfo{type patch;}}
+            wall1{ level (2 2); patchInfo{type wall;}}
+            wall2{ level (2 2); patchInfo{type wall;}}
+//          wall3{ level (2 2); patchInfo{type wall;}}
+//          wall4{ level (2 2); patchInfo{type wall;}}
+//          wall5{ level (2 2); patchInfo{type wall;}}
+        }
+        resolveFeatureAngle 30;
+        refinementRegions
+        {
+        }
+        locationInMesh (0 0.4e-3 0);
+        allowFreeStandingZoneFaces false;
+    }
+
+    snapControls
+    {
+        nSmoothPatch 3;
+        tolerance 4.0;
+        nSolveIter 300;
+        nRelaxIter 5;
+        nFeatureSnapIter 10;
+        implicitFeatureSnap true;
+        explicitFeatureSnap false;
+        multiRegionFeatureSnap true;
+    }
+
+    addLayersControls
+    {
+        relativeSizes true;
+        layers
+        {
+            wall1{nSurfaceLayers 2;}			
+            wall2{nSurfaceLayers 2;}			
+//  			wall3{nSurfaceLayers 2;}			
+//  			wall4{nSurfaceLayers 2;}			
+//  			wall5{nSurfaceLayers 2;}			
+        }
+        expansionRatio 1.05;
+        finalLayerThickness 0.3;
+        minThickness 0.1;
+        nGrow 0;
+        featureAngle 90;
+        nRelaxIter 3;
+        nSmoothSurfaceNormals 1;
+        nSmoothNormals 3;
+        nSmoothThickness 10;
+        maxFaceThicknessRatio 0.5;
+        maxThicknessToMedialRatio 0.3;
+        minMedialAxisAngle 90;
+        nBufferCellsNoExtrude 0;
+        nLayerIter 10;//50;
+    }
+
+    meshQualityControls
+    {
+        maxNonOrtho 65;   // Reduce this from 70+ to 65
+        maxBoundarySkewness 4;  // Reduce from 20 to 4
+        maxInternalSkewness 4;  // Reduce from 4+ to 4
+        maxConcave 80;
+        minVol 1e-14;  // Reduce min volume to fix inverted cells
+        minTetQuality -1;
+        minArea -1;
+        minTwist 0.01;
+        minDeterminant 0.001;
+        minFaceWeight 0.05;
+        minVolRatio 0.01;
+        minTriangleTwist -1;
+        nSmoothScale 4;
+        errorReduction 0.75;
+    }
+
+    // meshQualityControls
+    // {
+    //     maxNonOrtho 65;
+    //     maxBoundarySkewness 20;
+    //     maxInternalSkewness 4;
+    //     maxConcave 80;
+    //     minVol 1e-13;
+    //     minTetQuality -1;
+    //     minArea -1;
+    //     minTwist 0.01;
+    //     minDeterminant 0.001;
+    //     minFaceWeight 0.05;
+    //     minVolRatio 0.01;
+    //     minTriangleTwist -1;
+    //     nSmoothScale 4;
+    //     errorReduction 0.75;
+    //     // relaxed
+    //     // {
+    //     //     maxNonOrtho 75;
+    //     // }
+    // }
+
+    writeFlags
+    (
+        scalarLevels
+        layerFields
+    );
+
+    mergeTolerance 1e-6;
+
+
+// ************************************************************************* //

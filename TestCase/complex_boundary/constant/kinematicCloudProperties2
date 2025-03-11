@@ -1,0 +1,206 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                   |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version: 2412                                   |
+|   \\  /    A nd           | Web:      www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      kinematicCloudProperties;
+}
+// ************************************************************************* //
+
+// This example configures a kinematic cloud using manual injection.
+// In this model the particle positions are read from an external file
+// (kinematicCloudPositions) rather than being injected continuously.
+
+solution{
+    active                       true;   // Enable the particle cloud simulation
+    coupled                      true;   // Couple the cloud to the fluid solver
+    transient                    yes;    // Run as a time-dependent simulation
+    cellValueSourceCorrection    off;    // Optional: disable cell-based source correction
+
+    // Specify interpolation schemes for fields required by the cloud model
+    interpolationSchemes{
+        rho.medium     cell;       // Use cell-centered values for density
+        U.medium       cellPoint;  // Interpolate velocity from cells to particle locations
+        mu.medium      cell;       // Use cell data for dynamic viscosity
+    }
+    averagingMethod  dual;       // Use a dual averaging method (alternative to "basic")
+    
+    integrationSchemes{
+        U Euler;               // Use Euler integration for particle velocity update
+        // Optional: Other schemes (e.g., Runge-Kutta) might be available in future releases.
+    }
+    sourceTerms{
+        schemes{
+            U semiImplicit 1;  // Use a semi-implicit source term scheme for momentum
+        }
+    }
+}
+
+constantProperties
+{
+    rho0     2526;   // Reference density for the particle phase [kg/m^3]
+    alphaMax 0.9;    // Maximum volume fraction (90% packing)
+    diffusion_coeff 1e-9; // m2/s
+}
+
+subModels
+{
+    // --------------------------------------------------------------------
+    // Particle Forces: Define how forces (e.g. drag, gravity) act on particles.
+    // --------------------------------------------------------------------
+    particleForces
+    {
+        PlessisMasliyahDrag  // Example drag model for particle-fluid interaction
+        {
+            alphac  alpha.medium;  // Reference volume fraction for the continuous phase
+        }
+        gravity;  // Gravity can be enabled to account for buoyancy effects.
+    }
+
+    // --------------------------------------------------------------------
+    // Injection Models: This model reads particle positions from a file.
+    // --------------------------------------------------------------------
+    injectionModels
+    {
+        model1
+        {
+            type            manualInjection;  
+            // "manualInjection" tells the solver to read particle positions from a file.
+            
+            massTotal       0;  
+            // massTotal is zero when injection is controlled by position input rather than a prescribed mass rate.
+            
+            parcelBasisType fixed;  
+            // "fixed" means that each injected parcel represents a fixed number of particles.
+            
+            nParticle       1;  
+            // Number of particles per injection event (typically one parcel per position read).
+            
+            SOI             0;  
+            // Start Of Injection: time offset at which injection starts.
+            
+            positionsFile   "kinematicCloudPositions_n1e5";  
+            // This file should contain a list of particle positions (one per line or in an array format).
+            
+            U0              (0 0 0);  
+            // Initial velocity for injected particles. Can be set to (0 0 0) or another vector as needed.
+            
+            // The size distribution can be configured to set particle diameter.
+            sizeDistribution
+            {
+                type                    fixedValue;
+                fixedValueDistribution
+                {
+                    value           1e-9;  
+                    // Particle diameter is fixed at 0.0025 m.
+                    // Optional: Instead of a fixed value, a distribution (e.g., normal) can be specified.
+                }
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------
+    // Dispersion and Interaction Models:
+    // --------------------------------------------------------------------
+    dispersionModel none;  
+    // No additional dispersion model is used. (Optional: a stochastic model can be activated if needed.)
+    
+    patchInteractionModel localInteraction;
+
+    localInteractionCoeffs{
+        patches
+        (
+            "(wall1|defaultBoundary)"
+            {
+                type rebound;
+                e    1; // Coefficient of restitution
+                mu   0; // Friction coefficient
+            }
+            "(inlet1)"
+            {
+                type rebound;
+                e    1;
+                mu   0;
+            }
+            "(outlet1)"
+            {
+                type escape;
+            }
+        );
+    }
+
+    // --------------------------------------------------------------------
+    // Additional Physical Models:
+    // --------------------------------------------------------------------
+    heatTransferModel none;   // No heat transfer between particles and fluid.
+    surfaceFilmModel none;    // No film formation on particle surfaces.
+    
+    packingModel explicit;    
+    // Use an explicit model for particle packing. This is useful for dense flows.
+    explicitCoeffs
+    {
+        particleStressModel
+        {
+            type        HarrisCrighton;
+            alphaPacked 0.65;  // Threshold volume fraction for packing effects
+            pSolid      10.0;  // Solid pressure parameter
+            beta        2.0;   // Stress coefficient
+            eps         1e-7;  // Small number to prevent division by zero
+        }
+        correctionLimitingMethod
+        {
+            type absolute;
+            e    0.9;         // Limiting parameter for corrections
+        }
+    }
+
+    // Implicit coefficients for handling low values of alpha and density:
+    implicitCoeffs
+    {
+        alphaMin       0.0001;
+        rhoMin         1.0;
+        applyLimiting  true;
+        applyGravity   false;
+        particleStressModel
+        {
+            type        HarrisCrighton;
+            alphaPacked 0.65;
+            pSolid      5.0;
+            beta        2.0;
+            eps         1e-2;
+        }
+    }
+
+    dampingModel none;  
+    // Damping (or relaxation) model is not used here, but can be added if needed.
+    
+    isotropyModel stochastic;
+    stochasticCoeffs
+    {
+        timeScaleModel
+        {
+            type        isotropic;
+            alphaPacked 0.65;
+            e           0.9;
+        }
+    }
+    
+    stochasticCollisionModel none;  
+    radiation off;
+}
+
+cloudFunctions
+{
+    // Optional: User-defined functions for additional cloud processing can be defined here.
+    // For instance, you might add functions to compute average particle velocity over time.
+}
+
+// ************************************************************************* //

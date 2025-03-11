@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# -----------------------------------------------------------------------------
+# OpenFOAM Automation Script
+#
+# This script automates running OpenFOAM simulations with various options:
+# - `-c` : Cleans the case before execution.
+# - `-p [num]` : Runs in parallel mode with the specified number of cores (if omitted, it detects system cores).
+# - `-s` : Silent mode (logs output to file but does not display on screen).
+#
+# Default behavior:
+# - If no flags are provided, it runs in serial mode with output shown on screen.
+# - If `-p` is provided without a number, it detects the number of physical cores.
+# - If `-c` is provided, it runs `cleanCase` and removes `constant/polyMesh`.
+#
+# Example Usage:
+#   ./script.sh             # Runs in serial mode
+#   ./script.sh -c          # Cleans the case and runs in serial mode
+#   ./script.sh -p          # Runs in parallel using detected core count
+#   ./script.sh -p 8        # Runs in parallel with 8 cores
+#   ./script.sh -p -s       # Runs in parallel with detected core count, silent mode
+#   ./script.sh -p 16 -c -s # Cleans, runs in parallel with 16 cores, silent
+# -----------------------------------------------------------------------------
+
+# Move to script directory
+cd "${0%/*}" || exit 1
+
+# Default values
+PARALLEL=0
+SILENT=0
+CLEAN=0
+LOG_FILE="simulation.log"
+
+# Detect number of physical cores if not provided
+if command -v nproc >/dev/null 2>&1; then
+    NUM_PROCS=$(nproc --all)  # Linux
+elif command -v sysctl >/dev/null 2>&1; then
+    NUM_PROCS=$(sysctl -n hw.physicalcpu)  # macOS
+else
+    NUM_PROCS=16  # Fallback default
+fi
+
+# Define the executor path
+EXECUTOR="/home/zpj/Documents/ProjectsLocal/openfoam/r1project/DMPPIC/DPMFoam/Bin/MPPICFoam"
+
+# Parse command-line arguments
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -p)
+            PARALLEL=1
+            if [ -n "$2" ] && [ "$2" -eq "$2" ] 2>/dev/null; then
+                NUM_PROCS="$2"
+                shift
+            fi
+            ;;
+        -s) SILENT=1 ;;  # Enable silent mode
+        -c) CLEAN=1 ;;  # Enable cleaning before execution
+    esac
+    shift
+done
+
+# Run Allclean if requested
+if [ "$CLEAN" -eq 1 ]; then
+    echo "Running Allclean..."
+    # Source tutorial clean functions
+    . "$WM_PROJECT_DIR/bin/tools/CleanFunctions"
+
+    # Run cleanCase and remove constant/polyMesh
+    cleanCase
+    rm -rf constant/polyMesh
+fi
+
+# Create open.foam file
+touch open.foam
+
+# Run blockMesh to generate the mesh
+blockMesh
+
+# Run MPPICFoam
+if [ "$PARALLEL" -eq 1 ]; then
+    decomposePar
+    CMD="mpirun -np $NUM_PROCS $EXECUTOR -parallel"
+else
+    CMD="$EXECUTOR"
+fi
+
+# Execute command with logging
+if [ "$SILENT" -eq 1 ]; then
+    $CMD > "$LOG_FILE" 2>&1  # Silent mode, only log to file
+else
+    $CMD 2>&1 | tee "$LOG_FILE"  # Log to file and display output
+fi
