@@ -209,6 +209,22 @@ const Foam::vector Foam::KinematicParcel<ParcelType>::calcVelocity
     const forceSuSp Fncp = forces.calcNonCoupled(p, ttd, dt, mass, Re, mu);
     const scalar massEff = forces.massEff(p, ttd, mass);
 
+    // Calculate Brownian force
+
+    // static const scalar kB = 1.38064852e-23;  // Boltzmann constant
+    // static const scalar T_kelvin = 298.15; // 25 celsius
+    const scalar diffusion_coefficient = 1e-9;
+    
+    const scalar gamma = 6 * M_PI * (d_/2);
+
+    const scalar amplitude = sqrt(2 * diffusion_coefficient * gamma * gamma / dt);
+
+    vector FBrownian(
+        rnd.GaussNormal<scalar>() * amplitude,
+        rnd.GaussNormal<scalar>() * amplitude,
+        rnd.GaussNormal<scalar>() * amplitude
+    );
+
     /*
     // Proper splitting ...
     // Calculate the integration coefficients
@@ -242,7 +258,28 @@ const Foam::vector Foam::KinematicParcel<ParcelType>::calcVelocity
     const vector deltaUncp = ancp*dt;
     const vector deltaUcp = deltaU - deltaUncp;
 
+    // The Brownian-induced velocity increment is computed as:
+    // deltaU_B = (1/massEff)*sqrt( 2*(kBT)^2*dt / D ) * randomVector,
+    // where each component of the random vector is drawn from N(0,1)
+    // const scalar kBT = 1.380649e-23 * 298.15;
+    // const scalar D = GV.duffusion_coefficient;
+    // const scalar amplitude_std = sqrt( 2.0 * (kBT * kBT) * dt / D );
+
+    // const vector deltaU_B = (1.0/massEff) * amplitude_std * vector(
+    //     rnd.GaussNormal<scalar>(),
+    //     rnd.GaussNormal<scalar>(),
+    //     rnd.GaussNormal<scalar>()
+    // );
+
+    // print massEff, amplitude_std, deltaU_B;
+    // Info << "massEff: " << massEff << 
+    // " amplitude_std: " << amplitude_std << 
+    // " amplitude: " << (1.0/massEff) * amplitude_std <<
+    // " deltaU_B: " << deltaU_B << endl;
+    // --- End Brownian contribution ---
+
     // Calculate the new velocity and the momentum transfer terms
+    // vector Unew = U_ + deltaU + deltaU_B;
     vector Unew = U_ + deltaU;
 
     dUTrans -= massEff*deltaUcp;
@@ -325,8 +362,7 @@ bool Foam::KinematicParcel<ParcelType>::move
     const scalarField& cellLengthScale = cloud.cellLengthScale();
     const scalar maxCo = solution.maxCo();
 
-    // const scalar diffusion_std = sqrt(2.0 * GV.duffusion_coefficient * trackTime);
-    const scalar diffusion_var = 2.0 * GV.duffusion_coefficient * trackTime;
+    const scalar diffusion_std = sqrt(2.0 * GV.duffusion_coefficient  * trackTime * 1.0/0.29999); // compensate step fraction
 
     while (ttd.keepParticle && !ttd.switchProcessor && p.stepFraction() < 1)
     {
@@ -335,23 +371,23 @@ bool Foam::KinematicParcel<ParcelType>::move
         const scalar sfrac = p.stepFraction();
 
         // Brownian motion displacement
-        // vector s_D
-        // (
-        //     diffusion_var * distribution(generator),
-        //     diffusion_var * distribution(generator),
-        //     diffusion_var * distribution(generator)
-        // );
-
         vector s_D
         (
-            diffusion_var * rnd.GaussNormal<scalar>(),
-            diffusion_var * rnd.GaussNormal<scalar>(),
-            diffusion_var * rnd.GaussNormal<scalar>()
+            diffusion_std * distribution(generator),
+            diffusion_std * distribution(generator),
+            diffusion_std * distribution(generator)
         );
+
+        // vector s_D(
+        //     diffusion_std * rnd.GaussNormal<scalar>(),
+        //     diffusion_std * rnd.GaussNormal<scalar>(),
+        //     diffusion_std * rnd.GaussNormal<scalar>()
+        // );
 
 
         // Total displacement over the time-step
-        const vector s = trackTime*U_ + s_D;
+        const vector s = trackTime * U_ + s_D;
+        // const vector s = trackTime * U_;
 
         // Cell length scale
         const scalar l = cellLengthScale[p.cell()];
