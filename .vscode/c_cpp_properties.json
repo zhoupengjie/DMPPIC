@@ -11,7 +11,6 @@
                 "${env:FOAM_SRC}/meshTools/lnInclude",
                 "${env:FOAM_SRC}/lagrangian/basic/lnInclude",
                 "./Include/intermediate/lnInclude/**",
-                // "${env:FOAM_SRC}/lagrangian/intermediate/lnInclude",
                 "${env:FOAM_SRC}/thermophysicalModels/specie/lnInclude",
                 "${env:FOAM_SRC}/transportModels/compressible/lnInclude",
                 "${env:FOAM_SRC}/thermophysicalModels/basic/lnInclude",
@@ -30,7 +29,10 @@
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "gcc-x64",
+            "compileCommands": [
+                "${workspaceFolder}/MPPICFoam/build/compile_commands.json"
+            ]
         }
     ],
     "version": 4
